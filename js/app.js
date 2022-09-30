@@ -23,6 +23,10 @@ class Citas {
 
         console.log(this.citas);
     }
+
+    eliminarCita(id) {
+        this.citas = this.citas.filter ( cita => cita.id !== id );
+    }
 };
 
 class UI {
@@ -38,7 +42,7 @@ class UI {
         if (tipo === 'error') {
             divMensaje.classList.add('alert-danger');
         } else {
-            divMensaje.classList.add('alert-sucess');
+            divMensaje.classList.add('alert-success');
         }
 
         // Mensaje de error
@@ -98,6 +102,11 @@ class UI {
             <span class="font-weight-bolder">Sintomas: </span> ${sintomas} 
             `;
             
+            // Boton eliminar cita
+            const btnEliminar = document.createElement('button');
+            btnEliminar.classList.add('btn','btn-danger', 'mr-2');
+            btnEliminar.innerHTML = 'Eliminar';
+            btnEliminar.onclick = () => eliminarCita(id);
 
 
             // Agregar los parrafos al divCita
@@ -107,6 +116,7 @@ class UI {
             divCita.appendChild(fechaParrafo);
             divCita.appendChild(horaParrafo);
             divCita.appendChild(sintomasParrafo);
+            divCita.appendChild(btnEliminar);
 
             // Agregar las citas al HTML
             contenedorCitas.appendChild(divCita);
@@ -202,4 +212,15 @@ function reiniciarObj() {
     citaObj.fecha = '',
     citaObj.hora = '',
     citaObj.sintomas = ''
+}
+
+function eliminarCita(id) {
+    // Eliminar la cita
+    administrarCitas.eliminarCita(id);
+
+    // Mostrar un mensaje
+    ui.imprimirAlerta('La cita se elimino correctamente');
+
+    // Refrescas las citas
+    ui.imprimirCitas(administrarCitas);
 }
